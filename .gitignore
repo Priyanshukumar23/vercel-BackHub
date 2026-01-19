@@ -1,0 +1,19 @@
+# ===== Backend =====
+server/node_modules/
+server/.env
+
+# ===== Frontend =====
+client/node_modules/
+client/dist/
+client/build/
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== OS / Editor =====
+.DS_Store
+Thumbs.db
+.vscode/

@@ -17,6 +17,14 @@ const User = require('./models/User'); // Moved up to valid scope
 const multer = require('multer');
 const Filter = require('bad-words');
 const filter = new Filter();
+const fs = require('fs');
+const path = require('path');
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
 const app = express();
 const server = http.createServer(app);

@@ -73,28 +73,40 @@ router.get('/:id', async (req, res) => {
 // @desc    Create a new group
 // @access  Private
 router.post('/', auth, async (req, res) => {
-    try {
-        const { name, description, category, image } = req.body;
-        const newGroup = new Group({
-            name,
-            description,
-            category,
-            image, // Expecting URL string
-            createdBy: req.user.id,
-            members: [req.user.id]
-        });
+    upload(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ msg: err });
+        }
 
-        const group = await newGroup.save();
+        try {
+            const { name, description, category } = req.body;
+            let image = req.body.image; // Fallback to URL if provided
 
-        // Add to user's joinedGroups
-        const User = require('../models/User');
-        await User.findByIdAndUpdate(req.user.id, { $addToSet: { joinedGroups: group._id } });
+            if (req.file) {
+                image = `/uploads/${req.file.filename}`;
+            }
 
-        res.json(group);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+            const newGroup = new Group({
+                name,
+                description,
+                category,
+                image,
+                createdBy: req.user.id,
+                members: [req.user.id]
+            });
+
+            const group = await newGroup.save();
+
+            // Add to user's joinedGroups
+            const User = require('../models/User');
+            await User.findByIdAndUpdate(req.user.id, { $addToSet: { joinedGroups: group._id } });
+
+            res.json(group);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error');
+        }
+    });
 });
 
 // @route   POST api/groups/:id/join

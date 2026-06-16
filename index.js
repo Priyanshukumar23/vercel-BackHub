@@ -34,7 +34,7 @@ const server = http.createServer(app);
 // Allowing CORS for the frontend application.
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173", "https://priyanshu-fronthub.vercel.app"],
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173", "https://priyanshu-fronthub.vercel.app", "https://skillsphere-portal.vercel.app"],
     methods: ["GET", "POST"],
     credentials: true,
     allowedHeaders: ["my-custom-header"],
@@ -47,7 +47,7 @@ const PORT = process.env.PORT || 5000;
 // CORS allows requests from the frontend domain.
 // express.json() parses incoming JSON requests.
 app.use(cors({
-  origin: ["http://localhost:5173", "http://127.0.0.1:5173", "https://priyanshu-fronthub.vercel.app"],
+  origin: ["http://localhost:5173", "http://127.0.0.1:5173", "https://priyanshu-fronthub.vercel.app", "https://skillsphere-portal.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
